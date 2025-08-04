@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken";
+import { request } from "http";
 
 const prisma = new PrismaClient();
 
@@ -85,3 +86,74 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+export const logout = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie("jwt");
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
+
+export const updataUser = async (req:Request, res:Response)=>{
+  const {id} =req.params;
+  try {
+    const updataUser = await prisma.user.update({
+      where:{
+        id:id
+      },
+      data:req.body
+    })
+    return res.status(200).json(updataUser)
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
+
+export const uploadProfilePicture = async (req: Request, res: Response) => {
+  const userId = req.body.userId
+  const imageUrl = (req.file as Express.Multer.File)?.path;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { image: imageUrl },
+    });
+    res.status(200).json({ 
+      message: "Profile picture updated",
+      image: user.image,
+     });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+} 
+
+// admin only
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany();
+    return res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
+
+export const deleteUser = async (req:Request, res:Response) =>{
+  const {id} = req.params;
+  try {
+    const deleteUser = await prisma.user.delete({
+      where:{
+        id:id
+      }
+    })
+    if(!deleteUser){
+      return res.status(404).json({message:"User not found"})
+    } 
+
+    res.status(200).json({message: "User deleted", deleteUser});
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+}
