@@ -1,0 +1,59 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  image      String?
+  idNumber   String   @unique
+  secretkey  String
+  isVoted    Boolean  @default(false)
+  createAt   DateTime @default(now()) 
+  user_role  Role     @default(user)
+  votes      Vote[]
+}
+
+model Candidate {
+  id         String   @id @default(uuid())
+  name       String
+  image      String
+  position   String
+  createdAt  DateTime @default(now()) 
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  votes      Vote[]
+}
+
+model Category {
+  id         String      @id @default(uuid())
+  name       String
+  candidates Candidate[]
+  votes     Vote[]
+}
+
+model Vote {
+  id           String     @id @default(uuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  candidate    Candidate  @relation(fields: [candidateId], references: [id])
+  candidateId  String
+  category     Category   @relation(fields: [categoryId], references: [id])
+  categoryId   String
+
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, categoryId]) 
+}
+

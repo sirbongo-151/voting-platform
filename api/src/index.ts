@@ -1,14 +1,20 @@
 import express from "express"
+import cors from "cors"
+
+import { checkDB } from "./utils/checkDB";
+import userRouter  from "./routes/user.route";
+
 
 const app = express()
-const PORT = 3000
+const PORT = 5000
+
 app.use(express.json())
+app.use(cors())
 
 
-app.get("/", (req, res) => {
-    res.send("Hello World!")
-})
+app.use("/api/users", userRouter)
 
 app.listen(PORT, () => {
+    checkDB()
     console.log(`Server running on port ${PORT}`)
 })
