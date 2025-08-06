@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import  prisma  from "../utils/prismaClient";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken";
-import { request } from "http";
 
-const prisma = new PrismaClient();
+
+
 
 
 export const signup = async (req: Request, res: Response) => {
@@ -62,13 +62,12 @@ export const login = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    
     const isSecretkeyValid = await bcrypt.compare(secretkey, user.secretkey);
-
+    
     if (!isSecretkeyValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-
    
     const accessToken = generateToken(res, user.id);
 
@@ -111,23 +110,7 @@ export const updataUser = async (req:Request, res:Response)=>{
   }
 }
 
-export const uploadProfilePicture = async (req: Request, res: Response) => {
-  const userId = req.body.userId
-  const imageUrl = (req.file as Express.Multer.File)?.path;
 
-  try {
-    const user = await prisma.user.update({
-      where: { id: userId },
-      data: { image: imageUrl },
-    });
-    res.status(200).json({ 
-      message: "Profile picture updated",
-      image: user.image,
-     });
-  } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
-  }
-} 
 
 // admin only
 
@@ -157,3 +140,19 @@ export const deleteUser = async (req:Request, res:Response) =>{
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+export const updateUserRole = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (!['user', 'admin'].includes(role)) {
+    return res.status(400).json({ message: 'Invalid role' });
+  }
+
+  const updated = await prisma.user.update({
+    where: { id },
+    data: { role },
+  });
+
+  res.json(updated);
+};

@@ -1,19 +1,20 @@
 import  express  from "express";
-import { signup, login, logout, getAllUsers, deleteUser, updataUser, uploadProfilePicture } from "../controllers/user.controller";
-import multer from "multer";
-import { profileStorage } from "../lib/cloudinaryStorage";
+import { signup, login, logout, getAllUsers, deleteUser, updataUser, updateUserRole} from "../controllers/user.controller";
+import { authorizedAdmin,  authenticate } from "../middlewares/auth.middleware";
+
+
 
 const router = express.Router();
-const parser = multer({ storage: profileStorage });
+// const parser = multer({ storage: profileStorage });
 
 router.post("/", signup);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/upload", parser.single('image'), uploadProfilePicture);
-router.put("/:id", updataUser);
+router.put("/:id", authenticate, updataUser);
 
 // admin only
-router.get("/", getAllUsers);
-router.delete("/:id", deleteUser);
+router.get("/",authenticate, authorizedAdmin, getAllUsers);
+router.put("/:id", authenticate, authorizedAdmin,updateUserRole);
+router.delete("/:id", authenticate, authorizedAdmin, deleteUser);
 
 export default router;

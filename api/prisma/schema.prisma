@@ -8,10 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  user
-  admin
-}
+
 
 model User {
   id         String   @id @default(uuid())
@@ -21,7 +18,7 @@ model User {
   secretkey  String
   isVoted    Boolean  @default(false)
   createAt   DateTime @default(now()) 
-  user_role  Role     @default(user)
+  role       String   @default("user")
   votes      Vote[]
 }
 
