@@ -1,0 +1,47 @@
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform, StatusBar, Image } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Forms from '@/components/Forms';
+import CustomButton from '@/components/CustomButton';
+import { Link } from 'expo-router';
+
+export default function Login() {
+  const [idNumber, setIdNumber] = useState('');
+  const [secretkey, setSecretkey] = useState('');
+
+  return (
+    <SafeAreaView style={{ flex: 1 }} className='bg-gray-900 text-white'>
+      <ScrollView>
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === "ios" ? "padding" : "height"} 
+          style={{ flex: 1 }} 
+        >
+            <StatusBar backgroundColor="#000000" barStyle="light-content" />
+          <View className='w-full h-[85vh] px-10 py-20 '>
+            <Image source={require("@/assets/images/evoting.jpg")} style={{ width: 200, height: 200 }}
+  className='rounded-full mx-auto mb-8'  />
+            <Text className='text-3xl text-white text-center font-bold mb-10'>Login</Text>
+           <Forms
+                title="ID Number"
+                placeholder="5123456789"
+                keyboardType="email-address"
+                onChangeText={(text) => setIdNumber(text)}
+                value={idNumber}
+                />
+    
+          <Forms
+                title="Secret Key"
+                placeholder="........."
+                keyboardType="email-address"
+                onChangeText={(text) => setSecretkey(text)}
+                value={secretkey}
+                />
+
+                <CustomButton title="Login" handleOnPress={() => {}} backgroundColor="orange-500" textColor="white"/>
+                <Text className='text-white text-center mt-5'>Don't have an account? <Link href="./signup" className="text-lg text-orange-500  p-2 rounded-lg">Sign Up</Link></Text>    
+         </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
