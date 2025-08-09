@@ -5,6 +5,7 @@ export default function CategoryItems() {
   return (
     
 <View className='relative bg-zinc-800 w-48 h-48 rounded-2xl overflow-hidden'>
+  
   <Image 
     source={require("@/assets/images/evoting.jpg")} 
     style={{ width: '100%', height: '100%' }} 

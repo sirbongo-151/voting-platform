@@ -1,8 +1,10 @@
-import { View, Text, SafeAreaView, StatusBar, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import CategoryItems from '@/components/CategoryItems';
+import { router, useRouter } from 'expo-router';
 
 export default function Home() {
+  const route = useRouter();
   return (
     <SafeAreaView className='bg-gray-900 h-full'>
       <ScrollView>
@@ -20,7 +22,9 @@ export default function Home() {
 
         {/* Category Section */}
         <View className='flex-row flex-wrap justify-center gap-4 px-5 pb-20'>
+          <TouchableOpacity onPress={() => route.push('/(votes)/voteList')}>
           <CategoryItems/>
+          </TouchableOpacity>
           <CategoryItems/>
           <CategoryItems/>
           <CategoryItems/>

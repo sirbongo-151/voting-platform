@@ -50,8 +50,9 @@ export default function Signup() {
                 />
 
                 <CustomButton title="Signup" handleOnPress={() => route.navigate('../(tabs)/home')} backgroundColor="orange-500" textColor="white"/>
-                <Text className='text-white text-center mt-5'>Already have an account? <Link href="./login" 
-                                className="text-lg text-orange-500  p-2 rounded-lg">Log In</Link></Text>   
+                <Text className='text-white text-center mt-5'>Already have an account? {''}
+                  <Text onPress={() => route.push('./login')} className="text-lg text-orange-500  p-2 rounded-lg">Log In</Text>
+                  </Text>   
 
          
          </View>

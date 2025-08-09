@@ -1,5 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
+import CustomButton from './CustomButton';
 
 
 export default function Card({name, position, votes, image, button,  others, ...rest}: any) {
@@ -13,9 +14,10 @@ export default function Card({name, position, votes, image, button,  others, ...
         <Text className='text-2xl font-semibold'>{position}</Text>
         <Text className='text-xl font-semibold'>{others} <Text className='text-3xl'>{votes}</Text></Text>
       </View>
-      <View className='absolute bottom-2 left-2 text-black text-lg font-bold'>
-        {button}
-      </View>
+      {/* <View className='absolute bottom-2 left-2 text-black text-lg font-bold flex-row gap-2 items-center mx-auto'>
+        <CustomButton title={"Cancle"} handleOnPress={() => {}} backgroundColor="bg-red-500" textColor="white" />
+        <CustomButton title={"Vote"} handleOnPress={() => {}} backgroundColor="bg-orange-500" textColor="white" />
+      </View> */}
     </View>
   )
 }
