@@ -35,10 +35,12 @@ export default function Login() {
                 keyboardType="email-address"
                 onChangeText={(text) => setSecretkey(text)}
                 value={secretkey}
+                secureTextEntry={true}
                 />
 
                 <CustomButton title="Login" handleOnPress={() => {}} backgroundColor="orange-500" textColor="white"/>
-                <Text className='text-white text-center mt-5'>Don't have an account? <Link href="./signup" className="text-lg text-orange-500  p-2 rounded-lg">Sign Up</Link></Text>    
+                <Text className='text-white text-center mt-5'>Don't have an account? <Link href="./signup" 
+                className="text-lg text-orange-500  p-2 rounded-lg">Sign Up</Link></Text>    
          </View>
         </KeyboardAvoidingView>
       </ScrollView>
