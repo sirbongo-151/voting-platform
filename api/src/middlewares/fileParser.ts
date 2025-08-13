@@ -19,17 +19,17 @@ const fileParser: RequestHandler = async (req, res, next) => {
     if (!req.body) req.body = {};
     req.myFiles = {};
 
-    // Parse fields
+    
     for (const key in fields) {
       const value = fields[key];
       req.body[key] = Array.isArray(value) ? value[0] : value;
     }
 
-    // Safely assign files
+   
     for (const key in files) {
       const value = files[key];
       if (value !== undefined) {
-        req.myFiles[key] = value.length > 1 ? value : value[0]; // ✅ safe assignment
+        req.myFiles[key] = value.length > 1 ? value : value[0]; 
       }
     }
 

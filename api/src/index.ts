@@ -19,6 +19,10 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 
+app.get("/", (req,res)=>{
+    res.send("Server is running")
+})
+
 
 app.use("/api/users", userRouter)
 app.use('/api/categories', categoryRoutes);

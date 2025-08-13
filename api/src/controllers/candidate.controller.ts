@@ -23,6 +23,7 @@ export const createCandidate = async (req: Request, res: Response) => {
 
     fs.unlinkSync(file.filepath);
 
+
     const candidate = await prisma.candidate.create({
       data: {
         name,
